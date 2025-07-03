@@ -18,6 +18,14 @@ on:
 
 
 jobs:
+  # log:
+  #  name: Log event
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Log event
+  #      run: |
+  #        echo "author association: ${{ toJson(github.event.comment.author_association) }}"
+  #        echo "user login: ${{ toJson(github.event.comment.user.login) }}"
   contributor_issue_comment:
     name: Contributor issue comment
 
@@ -45,7 +53,9 @@ jobs:
           repository: Misha-s-Test-Organization/.github
           ref: main
           token: ${{ steps.generate-token.outputs.token }}
-
+      # TODO REVIEW: quite old node version, can we use newer?
+      # Also because of https://github.com/actions/github-script
+      # Version 7 of this action updated the runtime to Node 20
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -75,7 +85,8 @@ jobs:
             {
               "text": "${{ steps.check.outputs.text }}"
             }
-
+      # TODO REVIEW: Naming nitpick: bot_replied > should_send_bot_reply
+      # TODO REVIEW: Also sent notification when bot message wasn't sent
       - name: Send bot message to Slack channel
         if: ${{ steps.check.outputs.bot_replied }}
         uses: slackapi/slack-github-action@v2.1.0
