@@ -18,13 +18,23 @@ on:
 
 
 jobs:
+  check-if-close-contributor:
+    name: Check if user is a close contributor
+    uses: Misha-s-Test-Organization/.github/.github/workflows/is-close-contributor.yml@main
+    secrets:
+          APP_ID: ${{ secrets.LE_BOT_APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.LE_BOT_PRIVATE_KEY }}
+    with:
+      username: ${{ github.event.comment.user.login }}
+
+
   process-issue-comment:
     name: Process issue comment
-
+    needs: [check-if-close-contributor]
     if: >-
       ${{
         !github.event.issue.pull_request &&
-        github.event.comment.author_association != 'MEMBER' &&
+        (github.event.comment.author_association != 'MEMBER' || needs.check-if-close-contributor.outputs.is-close-contributor == 'true') &&
         github.event.comment.author_association != 'OWNER' &&
         github.event.comment.user.login != 'sentry-io[bot]' &&
         github.event.comment.user.login != 'misha-test-bot[bot]'
@@ -65,6 +75,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL: ${{ secrets.SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL }}
+          IS_CLOSE_CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor }}
 
       - name: Send Slack notification about GitHub comment
         uses: slackapi/slack-github-action@v2.1.0
@@ -86,4 +97,3 @@ jobs:
             {
               "text": "${{ steps.script.outputs.slack_notification_bot_comment }}"
             }
-
