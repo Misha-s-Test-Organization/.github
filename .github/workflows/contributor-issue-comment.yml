@@ -22,7 +22,7 @@ jobs:
     name: Check if user is a close contributor
     uses: Misha-s-Test-Organization/.github/.github/workflows/is-close-contributor.yml@bugfix
     secrets:
-          LE_APP_ID: ${{ secrets.LE_BOT_APP_ID }}
+          LE_BOT_APP_ID: ${{ secrets.LE_BOT_APP_ID }}
           LE_BOT_PRIVATE_KEY: ${{ secrets.LE_BOT_PRIVATE_KEY }}
     with:
       username: ${{ github.event.comment.user.login }}
