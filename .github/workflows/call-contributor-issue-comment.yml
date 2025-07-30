@@ -6,7 +6,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: Misha-s-Test-Organization/.github/.github/workflows/contributor-issue-comment.yml@main
+    uses: Misha-s-Test-Organization/.github/.github/workflows/contributor-issue-comment.yml@bugfix
     secrets:
       LE_BOT_APP_ID: ${{ secrets.LE_BOT_APP_ID }}
       LE_BOT_PRIVATE_KEY: ${{ secrets.LE_BOT_PRIVATE_KEY }}
