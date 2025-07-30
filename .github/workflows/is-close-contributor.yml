@@ -51,5 +51,5 @@ jobs:
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
           script: |
-            const script = require('./scripts/is-close-contributor.js');
+            const script = require('./scripts/isCloseContributor.js');
             return await script({core, github, context, username: '${{ inputs.username }}'});
