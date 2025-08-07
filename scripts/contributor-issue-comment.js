@@ -1,6 +1,5 @@
 const {
   LE_BOT_USERNAME,
-  CLOSE_CONTRIBUTORS,
   KEYWORDS_DETECT_ASSIGNMENT_REQUEST,
   ISSUE_LABEL_HELP_WANTED,
   BOT_MESSAGE_ISSUE_NOT_OPEN
@@ -81,7 +80,7 @@ module.exports = async ({ github, context, core }) => {
     }
 
 
-    if (await hasLabel(ISSUE_LABEL_HELP_WANTED) || CLOSE_CONTRIBUTORS.includes(commentAuthor)) {
+    if ( process.env.IS_CLOSE_CONTRIBUTOR || await hasLabel(ISSUE_LABEL_HELP_WANTED) ) {
       core.setOutput('webhook_url', supportDevSlackWebhookUrl);
     } else {
       core.setOutput('webhook_url', supportDevNotificationsSlackWebhookUrl);
