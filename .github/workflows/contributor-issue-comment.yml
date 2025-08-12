@@ -34,10 +34,10 @@ jobs:
     if: >-
       ${{
         !github.event.issue.pull_request &&
-        (github.event.comment.author_association != 'MEMBER' || needs.check-if-close-contributor.outputs.is-close-contributor == 'true') &&
         github.event.comment.author_association != 'OWNER' &&
         github.event.comment.user.login != 'sentry-io[bot]' &&
-        github.event.comment.user.login != 'misha-test-bot[bot]'
+        github.event.comment.user.login != 'misha-test-bot[bot]' &&
+        (github.event.comment.author_association != 'MEMBER' || needs.check-if-close-contributor.outputs.is-close-contributor == 'true')
       }}
 
     runs-on: ubuntu-latest
