@@ -35,6 +35,8 @@ module.exports = async ({ core, github, context, username }) => {
 
     if (isTeamMember) {
       core.info(`User '${username}' was found to be a member of a monitored team.`);
+    } else {
+      core.info(`User '${username}' was not found to be a member of a monitored team.`);
     }
 
     core.setOutput('is_close_contributor', isTeamMember);
