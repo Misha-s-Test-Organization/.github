@@ -75,7 +75,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL: ${{ secrets.SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL }}
-          INPUT_IS_CLOSE_CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor }}
+          INPUT_IS_CLOSE_CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor == 'true'}}
 
       - name: Send Slack notification about GitHub comment
         uses: slackapi/slack-github-action@v2.1.0
