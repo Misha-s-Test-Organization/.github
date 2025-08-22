@@ -99,7 +99,7 @@ jobs:
             }
 
       - name: Send Slack notification about skipped GitHub bot reply
-        if: ${{ steps.script.outputs.bot_replied_skipped }}
+        if: ${{ steps.script.outputs.bot_reply_skipped }}
         uses: slackapi/slack-github-action@v2.1.0
         with:
           webhook-type: incoming-webhook
