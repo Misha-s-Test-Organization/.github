@@ -98,7 +98,7 @@ jobs:
               "text": "${{ steps.script.outputs.slack_notification_bot_comment }}"
             }
 
-      - name: Send Slack notification about GitHub bot reply
+      - name: Send Slack notification about skipped GitHub bot reply
         if: ${{ steps.script.outputs.bot_replied_skipped }}
         uses: slackapi/slack-github-action@v2.1.0
         with:
