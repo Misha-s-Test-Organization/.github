@@ -93,7 +93,7 @@ module.exports = async ({ github, context, core }) => {
         if(PastBotComments.length > 0){
                 lastBotComment = PastBotComments.at(-1);
                 core.setOutput('bot_replied', false);
-                core.setOutput('bot_reply_skkipped', true);
+                core.setOutput('bot_reply_skipped', true);
                 const slackMessage = `*[${repo}] Bot response skipped on issue: <${issueUrl}|${escapedTitle}> (less than 1 hour since last bot reply)*`;
                 core.setOutput('slack_notification_bot_skipped', slackMessage);
             } else if(PastBotComments.length === 0){
