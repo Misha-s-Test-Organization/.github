@@ -69,7 +69,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
-          INPUT_IS-CLOSE-CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor}}
+          IS-CLOSE-CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor}}
           script: |
               const script = require('./scripts/contributor-issue-comment.js');
               return await script({github, context, core});

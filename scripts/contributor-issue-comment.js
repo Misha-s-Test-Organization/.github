@@ -20,7 +20,7 @@ module.exports = async ({ github, context, core }) => {
     const owner = context.repo.owner;
     const supportDevSlackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
     const supportDevNotificationsSlackWebhookUrl = process.env.SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL;
-    const isCloseContributor = core.getBooleanInput('is-close-contributor');
+    const isCloseContributor = core.getBooleanInput('IS-CLOSE-CONTRIBUTOR');
     const keywordRegexes = KEYWORDS_DETECT_ASSIGNMENT_REQUEST
       .map(k => k.trim().toLowerCase())
       .filter(Boolean)
