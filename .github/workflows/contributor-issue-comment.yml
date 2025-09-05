@@ -62,20 +62,20 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
 
       - name: Run script
         id: script
         uses: actions/github-script@v7
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
+          INPUT_IS-CLOSE-CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor}}
           script: |
               const script = require('./scripts/contributor-issue-comment.js');
               return await script({github, context, core});
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL: ${{ secrets.SLACK_COMMUNITY_NOTIFICATIONS_WEBHOOK_URL }}
-          INPUT_IS-CLOSE-CONTRIBUTOR: ${{ needs.check-if-close-contributor.outputs.is-close-contributor}}
 
       - name: Send Slack notification about GitHub comment
         uses: slackapi/slack-github-action@v2.1.0
