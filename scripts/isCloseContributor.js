@@ -1,16 +1,16 @@
-const { CLOSE_CONTRIBUTORS } = require('./constants');
+const { CLOSE_CONTRIBUTORS, TEAMS_WITH_CLOSE_CONTRIBUTORS } = require('./constants');
 
-module.exports = async ({ core, github, context, username }) => {
-  if (CLOSE_CONTRIBUTORS.includes(username)) {
+module.exports = async ({ core, github, context }) => {
+  const username = core.getInput('username');
+  if (CLOSE_CONTRIBUTORS.map(c => c.toLowerCase().trim()).includes(username.toLowerCase().trim())) {
     core.info(`User '${username}' found in the CLOSE CONTRIBUTORS list.`);
     core.setOutput('is_close_contributor', true);
     return;
   }
 
   const org = context.repo.owner;
-  const teamsToCheck = ['gsoc-contributors', 'learning-equality-community-guide'];
 
-  const promises = teamsToCheck.map(team_slug =>
+  const promises = TEAMS_WITH_CLOSE_CONTRIBUTORS.map(team_slug =>
     github.rest.teams.getMembershipForUserInOrg({
       org,
       team_slug,
