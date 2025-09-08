@@ -1,6 +1,4 @@
-// TODO change to learning-equality-bot[bot],
-// also in contributor-issue-comment.yml
-const LE_BOT_USERNAME = 'misha-test-bot[bot]';
+const LE_BOT_USERNAME = 'learning-equality-bot[bot]';
 
 // close contributors are treated a bit special in some workflows,
 // for example, we receive a high priority notification about their
