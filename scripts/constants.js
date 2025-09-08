@@ -1,3 +1,5 @@
+// TODO change to learning-equality-bot[bot],
+// also in contributor-issue-comment.yml
 const LE_BOT_USERNAME = 'misha-test-bot[bot]';
 
 // close contributors are treated a bit special in some workflows,
