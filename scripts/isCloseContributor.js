@@ -15,6 +15,10 @@ module.exports = async ({ core, github, context }) => {
 
   const org = context.repo.owner;
 
+  // Even though we check on team members here, it's best
+  // to add everyone to CLOSE_CONTRIBUTORS constant anyway
+  // for reliable results (e.g. check below won't work
+  // for private members)
   const promises = TEAMS_WITH_CLOSE_CONTRIBUTORS.map(team_slug =>
     github.rest.teams.getMembershipForUserInOrg({
       org,
