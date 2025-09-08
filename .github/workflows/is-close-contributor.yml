@@ -19,7 +19,7 @@ on:
 
 jobs:
   check-contributor:
-    name: Check Contributor Status
+    name: Run check
     runs-on: ubuntu-latest
     outputs:
       is_close_contributor: ${{ steps.check-script.outputs.is_close_contributor }}
