@@ -1,7 +1,12 @@
 const { CLOSE_CONTRIBUTORS, TEAMS_WITH_CLOSE_CONTRIBUTORS } = require('./constants');
 
 module.exports = async ({ core, github, context }) => {
-  const username = core.getInput('username');
+  const username = process.env.USERNAME;
+  if (!username) {
+    core.setFailed('Missing username input.');
+    return;
+  }
+
   if (CLOSE_CONTRIBUTORS.map(c => c.toLowerCase().trim()).includes(username.toLowerCase().trim())) {
     core.info(`User '${username}' found in the CLOSE CONTRIBUTORS list.`);
     core.setOutput('is_close_contributor', true);

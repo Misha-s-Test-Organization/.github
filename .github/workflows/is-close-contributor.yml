@@ -13,7 +13,7 @@ on:
       LE_BOT_PRIVATE_KEY:
         required: true
     outputs:
-      is-close-contributor:
+      is_close_contributor:
         description: "True if the user is a close contributor, otherwise false"
         value: ${{ jobs.check-contributor.outputs.is_close_contributor }}
 
@@ -48,9 +48,10 @@ jobs:
       - name: Run script
         id: check-script
         uses: actions/github-script@v7
+        env:
+          USERNAME: ${{ inputs.username }}
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
-          username: ${{ inputs.username }}
           script: |
             const script = require('./scripts/isCloseContributor.js');
-            return await script({core, github, context});
+            return await script({core, github, context });
