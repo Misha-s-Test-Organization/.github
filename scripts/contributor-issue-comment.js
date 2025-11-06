@@ -80,6 +80,55 @@ module.exports = async ({ github, context, core }) => {
         return response;
     }
 
+    async function getAuthorAssignedIssues(username) {
+      try {
+        const response = await github.rest.issues.listForRepo({
+          owner,
+          repo,
+          assignee: username,
+          state: 'open'
+        });
+        return response.data.filter(issue => !issue.pull_request); // Filter out PRs
+      } catch (error) {
+        core.warning(`⚠️ Failed to fetch assigned issues for ${username}: ${error.message}`);
+        return [];
+      }
+    }
+
+    async function getAuthorOpenPRs(username) {
+      try {
+        const response = await github.rest.pulls.list({
+          owner,
+          repo,
+          state: 'open'
+        });
+        return response.data.filter(pr => pr.user.login === username);
+      } catch (error) {
+        core.warning(`⚠️ Failed to fetch open PRs for ${username}: ${error.message}`);
+        return [];
+      }
+    }
+
+    function formatAuthorActivity(assignedIssues, openPRs) {
+      const parts = [];
+      
+      if (assignedIssues.length > 0) {
+        const issueLinks = assignedIssues.map(issue => `<${issue.html_url}|#${issue.number}>`).join(' ');
+        parts.push(`${assignedIssues.length} issue${assignedIssues.length === 1 ? '' : 's'} ${issueLinks}`);
+      } else {
+        parts.push(`0 issues`);
+      }
+      
+      if (openPRs.length > 0) {
+        const prLinks = openPRs.map(pr => `<${pr.html_url}|#${pr.number}>`).join(' ');
+        parts.push(`${openPRs.length} PR${openPRs.length === 1 ? '' : 's'} ${prLinks}`);
+      } else {
+        parts.push(`0 PRs`);
+      }
+      
+      return ` (${parts.join(', ')})`;
+    }
+
 
     if ( isCloseContributor || await hasLabel(ISSUE_LABEL_HELP_WANTED) ) {
       core.setOutput('webhook_url', supportDevSlackWebhookUrl);
@@ -103,9 +152,16 @@ module.exports = async ({ github, context, core }) => {
       }
     }
 
-    const message = `*[${repo}] <${issueUrl}#issuecomment-${commentId}|New comment> on issue: <${issueUrl}|${escapedTitle}> by ${commentAuthor}*`;
-    core.setOutput('slack_notification_comment', message);
+    // Get author's assigned issues and open PRs
+    const [assignedIssues, openPRs] = await Promise.all([
+      getAuthorAssignedIssues(commentAuthor),
+      getAuthorOpenPRs(commentAuthor)
+    ]);
+    
+    const authorActivity = formatAuthorActivity(assignedIssues, openPRs);
+    const message = `*[${repo}] <${issueUrl}#issuecomment-${commentId}|New comment> on issue: <${issueUrl}|${escapedTitle}> by ${commentAuthor}${authorActivity}*`;
 
+    core.setOutput('slack_notification_comment', message);
   } catch (error) {
     core.setFailed(`Action failed with error: ${error.message}`);
   }
