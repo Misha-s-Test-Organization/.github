@@ -23,7 +23,7 @@ jobs:
     - name: Checkout .github repository
       uses: actions/checkout@v4
       with:
-        repository: learningequality/.github
+        repository: Misha-s-Test-Organization/.github
         path: .github-repo
       
       # Setup Node.js

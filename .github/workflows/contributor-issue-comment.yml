@@ -20,7 +20,7 @@ on:
 jobs:
   check-if-close-contributor:
     name: Check if user is a close contributor
-    uses: learningequality/.github/.github/workflows/is-close-contributor.yml@main
+    uses: Misha-s-Test-Organization/.github/.github/workflows/is-close-contributor.yml@main
     secrets:
           LE_BOT_APP_ID: ${{ secrets.LE_BOT_APP_ID }}
           LE_BOT_PRIVATE_KEY: ${{ secrets.LE_BOT_PRIVATE_KEY }}
@@ -36,7 +36,7 @@ jobs:
         !github.event.issue.pull_request &&
         github.event.comment.author_association != 'OWNER' &&
         github.event.comment.user.login != 'sentry-io[bot]' &&
-        github.event.comment.user.login != 'learning-equality-bot[bot]' &&
+        github.event.comment.user.login != 'misha-test-bot[bot]' &&
         (github.event.comment.author_association != 'MEMBER' || needs.check-if-close-contributor.outputs.is_close_contributor == 'true')
       }}
 
@@ -52,7 +52,7 @@ jobs:
       - name: Checkout .github repository
         uses: actions/checkout@v4
         with:
-          repository: learningequality/.github
+          repository: Misha-s-Test-Organization/.github
           ref: main
           token: ${{ steps.generate-token.outputs.token }}
 

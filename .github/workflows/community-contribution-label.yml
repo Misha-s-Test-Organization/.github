@@ -23,7 +23,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-            repository: learningequality/.github
+            repository: Misha-s-Test-Organization/.github
             path: .github-repo
 
       - name: Generate App Token
