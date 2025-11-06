@@ -1,0 +1,47 @@
+name: Update community pull requests spreadsheet
+on:
+  pull_request_target:
+    types: [assigned,unassigned,opened,closed,reopened]
+  workflow_call:
+    secrets:
+      CONTRIBUTIONS_SPREADSHEET_ID:
+        required: true
+      CONTRIBUTIONS_SHEET_NAME:
+        required: true
+      GH_UPLOADER_GCP_SA_CREDENTIALS:
+        required: true
+jobs:
+  update-spreadsheet:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request }}
+    steps:
+      # Checkout the code for the test-actions repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+      # Checkout the .github repository
+    - name: Checkout .github repository
+      uses: actions/checkout@v4
+      with:
+        repository: learningequality/.github
+        path: .github-repo
+      
+      # Setup Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+      
+      # Install dependencies from the .github repository
+    - name: Install dependencies
+      run: npm install
+      working-directory: .github-repo 
+      
+      # Run the update-pr-spreadsheet script
+    - name: Run script
+      run: node .github-repo/scripts/update-pr-spreadsheet.js
+      env:
+        SPREADSHEET_ID: ${{ secrets.CONTRIBUTIONS_SPREADSHEET_ID }}
+        SHEET_NAME: ${{ secrets.CONTRIBUTIONS_SHEET_NAME }}
+        GOOGLE_CREDENTIALS: ${{ secrets.GH_UPLOADER_GCP_SA_CREDENTIALS }}
+        GITHUB_EVENT: ${{ toJson(github.event) }}
