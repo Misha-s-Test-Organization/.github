@@ -1,6 +1,6 @@
 // See docs/community-automations.md
 
-const LE_BOT_USERNAME = 'learning-equality-bot[bot]';
+const LE_BOT_USERNAME = 'misha-test-bot[bot]';
 const SENTRY_BOT_USERNAME = 'sentry-io[bot]';
 const DEPENDABOT_USERNAME = 'dependabot[bot]';
 
