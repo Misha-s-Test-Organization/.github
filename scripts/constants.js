@@ -97,7 +97,7 @@ const PR_STATS_REPOS = [
 ];
 
 // Repositories in which we accept open-source contributions
-const COMMUNITY_REPOS = [...PR_STATS_REPOS];
+const COMMUNITY_REPOS = [...PR_STATS_REPOS, 'another-repo'];
 
 module.exports = {
   LE_BOT_USERNAME,
