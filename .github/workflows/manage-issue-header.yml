@@ -26,7 +26,7 @@ jobs:
       - name: Checkout .github repository
         uses: actions/checkout@v6
         with:
-          repository: learningequality/.github
+          repository: Misha-s-Test-Organization/.github
           ref: main
           token: ${{ steps.generate-token.outputs.token }}
       - name: Setup Node.js
@@ -57,7 +57,7 @@ jobs:
       - name: Checkout .github repository
         uses: actions/checkout@v6
         with:
-          repository: learningequality/.github
+          repository: Misha-s-Test-Organization/.github
           ref: main
           token: ${{ steps.generate-token.outputs.token }}
       - name: Setup Node.js

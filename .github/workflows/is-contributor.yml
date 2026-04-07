@@ -35,7 +35,7 @@ jobs:
       - name: Checkout .github repository
         uses: actions/checkout@v6
         with:
-          repository: learningequality/.github
+          repository: Misha-s-Test-Organization/.github
           ref: main
       - name: Setup Node.js
         uses: actions/setup-node@v6
